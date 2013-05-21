@@ -9,6 +9,7 @@
 #import "AlbumListViewController.h"
 #import "ASAssetsLibrary.h"
 #import "GalleryViewController.h"
+#import "GalleryAsset.h"
 
 @interface AlbumListViewController ()
 
@@ -34,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    [[ASAssetsLibrary sharedInstance] addObserver:self forKeyPath:@"groups" options:nil context:nil];
+    [[ASAssetsLibrary sharedInstance] addObserver:self forKeyPath:@"groups" options:0 context:nil];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -128,10 +129,27 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    NSMutableArray* assets = [NSMutableArray array];
+    ALAssetsGroup* group = [ASAssetsLibrary sharedInstance].groups[indexPath.row];
+    [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+
+        if (result){
+            GalleryAsset* asset = [[GalleryAsset alloc] init];
+            asset.asset = result;
+            
+            [assets addObject:asset];
+        }else{
+            
+            GalleryViewController* galleryViewController = [[GalleryViewController alloc] init];
+            galleryViewController.assets = assets;
+            [self.navigationController pushViewController:galleryViewController animated:YES];
+        }
+            
+    }];
     
     
-    GalleryViewController* galleryViewController = [[GalleryViewController alloc] init];
-    [self.navigationController pushViewController:galleryViewController animated:YES];
+    
+
     
 }
 

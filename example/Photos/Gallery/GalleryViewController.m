@@ -31,12 +31,12 @@
 
 -(NSUInteger)numberOfAssets
 {
-    return 1;
+    return [self.assets count];
 }
 
 -(id<ASGalleryAsset>)assetAtIndex:(NSUInteger)index
 {
-    return nil;
+    return self.assets[index];
 }
 
 

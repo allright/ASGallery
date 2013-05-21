@@ -28,6 +28,7 @@
 		102CAC8D174B6AEE007B75BE /* ASAssetsLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 102CAC8C174B6AEE007B75BE /* ASAssetsLibrary.m */; };
 		102CAC8F174B6C52007B75BE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102CAC8E174B6C52007B75BE /* AssetsLibrary.framework */; };
 		10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */; };
+		10D0AFFF174B76AF00AEC2A1 /* GalleryAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D0AFFE174B76AF00AEC2A1 /* GalleryAsset.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		102CAC8E174B6C52007B75BE /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		10D0AFFA174B742800AEC2A1 /* GalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryViewController.h; path = Gallery/GalleryViewController.h; sourceTree = "<group>"; };
 		10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryViewController.m; path = Gallery/GalleryViewController.m; sourceTree = "<group>"; };
+		10D0AFFD174B76AF00AEC2A1 /* GalleryAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryAsset.h; path = Gallery/GalleryAsset.h; sourceTree = "<group>"; };
+		10D0AFFE174B76AF00AEC2A1 /* GalleryAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryAsset.m; path = Gallery/GalleryAsset.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +176,8 @@
 			children = (
 				10D0AFFA174B742800AEC2A1 /* GalleryViewController.h */,
 				10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */,
+				10D0AFFD174B76AF00AEC2A1 /* GalleryAsset.h */,
+				10D0AFFE174B76AF00AEC2A1 /* GalleryAsset.m */,
 			);
 			name = Gallery;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				102CAC83174B68B6007B75BE /* ASImageScrollView.m in Sources */,
 				102CAC8D174B6AEE007B75BE /* ASAssetsLibrary.m in Sources */,
 				10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */,
+				10D0AFFF174B76AF00AEC2A1 /* GalleryAsset.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
