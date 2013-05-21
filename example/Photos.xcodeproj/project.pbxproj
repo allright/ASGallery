@@ -30,8 +30,9 @@
 		10A3D5F9174B831A00013BE3 /* ASLoadImageBackgroundOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3D5F4174B831A00013BE3 /* ASLoadImageBackgroundOperation.m */; };
 		10A3D5FA174B831A00013BE3 /* ASLoadImageQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3D5F6174B831A00013BE3 /* ASLoadImageQueue.m */; };
 		10A3D5FB174B831A00013BE3 /* NSOperation+ext.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3D5F8174B831A00013BE3 /* NSOperation+ext.m */; };
+		10A3D600174B855C00013BE3 /* ALAssetAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3D5FE174B855C00013BE3 /* ALAssetAdapter.m */; };
+		10A3D603174B867300013BE3 /* ASCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3D602174B867300013BE3 /* ASCache.m */; };
 		10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */; };
-		10D0AFFF174B76AF00AEC2A1 /* GalleryAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D0AFFE174B76AF00AEC2A1 /* GalleryAsset.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,10 +72,12 @@
 		10A3D5F6174B831A00013BE3 /* ASLoadImageQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASLoadImageQueue.m; sourceTree = "<group>"; };
 		10A3D5F7174B831A00013BE3 /* NSOperation+ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperation+ext.h"; sourceTree = "<group>"; };
 		10A3D5F8174B831A00013BE3 /* NSOperation+ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperation+ext.m"; sourceTree = "<group>"; };
+		10A3D5FE174B855C00013BE3 /* ALAssetAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALAssetAdapter.m; sourceTree = "<group>"; };
+		10A3D5FF174B855C00013BE3 /* ALAssetAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAssetAdapter.h; sourceTree = "<group>"; };
+		10A3D601174B867300013BE3 /* ASCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASCache.h; sourceTree = "<group>"; };
+		10A3D602174B867300013BE3 /* ASCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASCache.m; sourceTree = "<group>"; };
 		10D0AFFA174B742800AEC2A1 /* GalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryViewController.h; path = Gallery/GalleryViewController.h; sourceTree = "<group>"; };
 		10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryViewController.m; path = Gallery/GalleryViewController.m; sourceTree = "<group>"; };
-		10D0AFFD174B76AF00AEC2A1 /* GalleryAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryAsset.h; path = Gallery/GalleryAsset.h; sourceTree = "<group>"; };
-		10D0AFFE174B76AF00AEC2A1 /* GalleryAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryAsset.m; path = Gallery/GalleryAsset.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +161,8 @@
 		102CAC78174B68B6007B75BE /* ASGallery */ = {
 			isa = PBXGroup;
 			children = (
+				10A3D5FF174B855C00013BE3 /* ALAssetAdapter.h */,
+				10A3D5FE174B855C00013BE3 /* ALAssetAdapter.m */,
 				102CAC79174B68B6007B75BE /* ASGalleryPage.h */,
 				102CAC7A174B68B6007B75BE /* ASGalleryPage.m */,
 				102CAC7B174B68B6007B75BE /* ASGalleryViewController.h */,
@@ -185,6 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				10A3D5F3174B831A00013BE3 /* ASLoadImageBackgroundOperation.h */,
+				10A3D601174B867300013BE3 /* ASCache.h */,
+				10A3D602174B867300013BE3 /* ASCache.m */,
 				10A3D5F4174B831A00013BE3 /* ASLoadImageBackgroundOperation.m */,
 				10A3D5F5174B831A00013BE3 /* ASLoadImageQueue.h */,
 				10A3D5F6174B831A00013BE3 /* ASLoadImageQueue.m */,
@@ -200,8 +207,6 @@
 			children = (
 				10D0AFFA174B742800AEC2A1 /* GalleryViewController.h */,
 				10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */,
-				10D0AFFD174B76AF00AEC2A1 /* GalleryAsset.h */,
-				10D0AFFE174B76AF00AEC2A1 /* GalleryAsset.m */,
 			);
 			name = Gallery;
 			sourceTree = "<group>";
@@ -283,10 +288,11 @@
 				102CAC83174B68B6007B75BE /* ASImageScrollView.m in Sources */,
 				102CAC8D174B6AEE007B75BE /* ASAssetsLibrary.m in Sources */,
 				10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */,
-				10D0AFFF174B76AF00AEC2A1 /* GalleryAsset.m in Sources */,
 				10A3D5F9174B831A00013BE3 /* ASLoadImageBackgroundOperation.m in Sources */,
 				10A3D5FA174B831A00013BE3 /* ASLoadImageQueue.m in Sources */,
 				10A3D5FB174B831A00013BE3 /* NSOperation+ext.m in Sources */,
+				10A3D600174B855C00013BE3 /* ALAssetAdapter.m in Sources */,
+				10A3D603174B867300013BE3 /* ASCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
