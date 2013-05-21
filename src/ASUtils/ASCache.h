@@ -1,7 +1,7 @@
 //
 //  TGCache.h
 //
-//  Created by Andrey Syvrachev on 12.11.12.
+//  Created by Andrey Syvrachev on 12.11.12. andreyalright@gmail.com
 //  Copyright (c) 2012 Andrey Syvrachev. All rights reserved.
 //
 // This code is distributed under the terms and conditions of the MIT license.
