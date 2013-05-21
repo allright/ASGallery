@@ -1,8 +1,8 @@
 //
-//  TGLoadImageQueue.h
+//  ALAssetAdapter.h
 //
-//  Created by Andrey Syvrachev on 29.10.12.
-//  Copyright (c) 2012 Andrey Syvrachev. All rights reserved.
+//  Created by Andrey Syvrachev on 21.05.13.
+//  Copyright (c) 2013 Andrey Syvrachev. All rights reserved.
 //
 // This code is distributed under the terms and conditions of the MIT license.
 //
@@ -25,9 +25,10 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "ASGalleryViewController.h"
 
-@interface ASLoadImageQueue : NSOperationQueue
+@interface ALAssetAdapter : NSObject<ASGalleryAsset>
 
-+(ASLoadImageQueue*)sharedInstance;
+@property(nonatomic,strong) ALAsset* asset;
 
 @end

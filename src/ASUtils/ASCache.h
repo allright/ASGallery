@@ -1,7 +1,7 @@
 //
-//  TGLoadImageQueue.h
+//  TGCache.h
 //
-//  Created by Andrey Syvrachev on 29.10.12.
+//  Created by Andrey Syvrachev on 12.11.12.
 //  Copyright (c) 2012 Andrey Syvrachev. All rights reserved.
 //
 // This code is distributed under the terms and conditions of the MIT license.
@@ -26,8 +26,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ASLoadImageQueue : NSOperationQueue
+@interface ASCache : NSObject
 
-+(ASLoadImageQueue*)sharedInstance;
+@property(nonatomic,assign) NSUInteger maxCachedObjectsCount;
 
+-(id)objectForKey:(id)aKey;
+-(void)setObject:(id)anObject forKey:(id)aKey;
+-(void)removeAllObjects;
 @end
