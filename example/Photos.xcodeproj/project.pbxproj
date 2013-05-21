@@ -27,6 +27,7 @@
 		102CAC89174B6917007B75BE /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102CAC88174B6917007B75BE /* MediaPlayer.framework */; };
 		102CAC8D174B6AEE007B75BE /* ASAssetsLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 102CAC8C174B6AEE007B75BE /* ASAssetsLibrary.m */; };
 		102CAC8F174B6C52007B75BE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102CAC8E174B6C52007B75BE /* AssetsLibrary.framework */; };
+		10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,8 @@
 		102CAC8B174B6AEE007B75BE /* ASAssetsLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASAssetsLibrary.h; sourceTree = "<group>"; };
 		102CAC8C174B6AEE007B75BE /* ASAssetsLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASAssetsLibrary.m; sourceTree = "<group>"; };
 		102CAC8E174B6C52007B75BE /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		10D0AFFA174B742800AEC2A1 /* GalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryViewController.h; path = Gallery/GalleryViewController.h; sourceTree = "<group>"; };
+		10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryViewController.m; path = Gallery/GalleryViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,7 @@
 		102CAC55174B6629007B75BE /* Photos */ = {
 			isa = PBXGroup;
 			children = (
+				10D0AFF9174B73F400AEC2A1 /* Gallery */,
 				102CAC5E174B6629007B75BE /* AppDelegate.h */,
 				102CAC5F174B6629007B75BE /* AppDelegate.m */,
 				102CAC67174B6629007B75BE /* MainStoryboard_iPhone.storyboard */,
@@ -162,6 +166,15 @@
 			);
 			name = lib;
 			path = Photos;
+			sourceTree = "<group>";
+		};
+		10D0AFF9174B73F400AEC2A1 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				10D0AFFA174B742800AEC2A1 /* GalleryViewController.h */,
+				10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */,
+			);
+			name = Gallery;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +253,7 @@
 				102CAC82174B68B6007B75BE /* ASGalleryViewController.m in Sources */,
 				102CAC83174B68B6007B75BE /* ASImageScrollView.m in Sources */,
 				102CAC8D174B6AEE007B75BE /* ASAssetsLibrary.m in Sources */,
+				10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -42,7 +42,6 @@
     
     [library enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
         
-        NSLog(@"group = %@",group);
         if (group){
             [__groups addObject:group];
         }else{

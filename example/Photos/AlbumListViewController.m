@@ -8,6 +8,7 @@
 
 #import "AlbumListViewController.h"
 #import "ASAssetsLibrary.h"
+#import "GalleryViewController.h"
 
 @interface AlbumListViewController ()
 
@@ -127,6 +128,11 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    
+    
+    GalleryViewController* galleryViewController = [[GalleryViewController alloc] init];
+    [self.navigationController pushViewController:galleryViewController animated:YES];
+    
 }
 
 @end
