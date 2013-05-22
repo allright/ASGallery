@@ -231,8 +231,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [hideBarsTimer invalidate];
+    [self showBars];
 }
 
 - (ASGalleryPage *)dequeueRecycledPage
