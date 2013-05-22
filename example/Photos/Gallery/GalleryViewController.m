@@ -40,5 +40,21 @@
     return self.assets[index];
 }
 
+-(void)updateTitle
+{
+    self.title = [NSString stringWithFormat:NSLocalizedString(@"%u of %u", nil),self.selectedIndex + 1,[self numberOfAssets]];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self updateTitle];
+}
+
+-(void)selectedIndexDidChanged
+{
+    [self updateTitle];
+}
 
 @end
