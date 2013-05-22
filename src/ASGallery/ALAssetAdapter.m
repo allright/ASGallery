@@ -84,9 +84,14 @@
         case ASGalleryImageFullScreen:
             return [UIImage imageWithCGImage:[[self.asset defaultRepresentation] fullScreenImage]];
             
+
         case ASGalleryImageFullResolution:
-            return [UIImage imageWithCGImage:[[self.asset defaultRepresentation] fullResolutionImage]];
-            
+        {
+            ALAssetRepresentation* defaultRepresentation = [self.asset defaultRepresentation];
+            return [UIImage imageWithCGImage:[defaultRepresentation fullResolutionImage]
+                                       scale:defaultRepresentation.scale
+                                 orientation:(UIImageOrientation)defaultRepresentation.orientation];
+        }
         default:
             return nil;
     }
