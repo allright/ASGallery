@@ -457,6 +457,7 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     ASGalleryPage* isv = [self visiblePageForIndex:self.selectedIndex];
     [isv pause];
+    [self hideBars];
 }
 
 -(void)hideBars
