@@ -8,7 +8,7 @@
 
 #import "GalleryViewController.h"
 
-@interface GalleryViewController ()
+@interface GalleryViewController ()<ASGalleryViewControllerDelegate>
 
 @end
 
