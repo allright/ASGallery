@@ -7,7 +7,7 @@
         <!--Album List View Controller - Albums-->
         <scene sceneID="fR8-WR-CYe">
             <objects>
-                <tableViewController id="Jy1-NY-qhs" customClass="AlbumListViewController" sceneMemberID="viewController">
+                <tableViewController wantsFullScreenLayout="YES" id="Jy1-NY-qhs" customClass="AlbumListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ttz-Zm-q3w">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,7 +49,7 @@
         <!--Navigation Controller-->
         <scene sceneID="hkD-og-iOo">
             <objects>
-                <navigationController definesPresentationContext="YES" id="dkm-vi-XyE" sceneMemberID="viewController">
+                <navigationController wantsFullScreenLayout="YES" definesPresentationContext="YES" id="dkm-vi-XyE" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackTranslucent" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackTranslucent" id="nfB-sd-JfS">
@@ -65,6 +65,11 @@
             <point key="canvasLocation" x="-256" y="92"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="AlbumListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AlbumListViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
