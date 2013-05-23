@@ -189,9 +189,9 @@
 		10A3D5F2174B831A00013BE3 /* ASUtils */ = {
 			isa = PBXGroup;
 			children = (
-				10A3D5F3174B831A00013BE3 /* ASLoadImageBackgroundOperation.h */,
 				10A3D601174B867300013BE3 /* ASCache.h */,
 				10A3D602174B867300013BE3 /* ASCache.m */,
+				10A3D5F3174B831A00013BE3 /* ASLoadImageBackgroundOperation.h */,
 				10A3D5F4174B831A00013BE3 /* ASLoadImageBackgroundOperation.m */,
 				10A3D5F5174B831A00013BE3 /* ASLoadImageQueue.h */,
 				10A3D5F6174B831A00013BE3 /* ASLoadImageQueue.m */,
