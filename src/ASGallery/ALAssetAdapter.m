@@ -34,8 +34,8 @@
     NSURL* _url;
 }
 
-
 @end
+
 
 @implementation ALAssetAdapter
 
@@ -84,7 +84,6 @@
         case ASGalleryImageFullScreen:
             return [UIImage imageWithCGImage:[[self.asset defaultRepresentation] fullScreenImage]];
             
-
         case ASGalleryImageFullResolution:
         {
             ALAssetRepresentation* defaultRepresentation = [self.asset defaultRepresentation];
@@ -117,7 +116,6 @@
 
 -(void)setImageCache:(UIImage*)image forType:(ASGalleryImageType)imageType
 {
-    // warning never use here self.url -> too long suspend main thread!!!
     NSString* key = [self generateCacheKey:imageType];
     [[self cacheForType:imageType] setObject:image forKey:key];
 }

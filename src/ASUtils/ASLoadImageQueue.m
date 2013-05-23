@@ -31,12 +31,9 @@
 
 unsigned int countCores()
 {
-    size_t len;
     unsigned int ncpu;
-    
-    len = sizeof(ncpu);
+    size_t len = sizeof(ncpu);
     sysctlbyname ("hw.ncpu",&ncpu,&len,NULL,0);
-    
     return ncpu;
 }
 
