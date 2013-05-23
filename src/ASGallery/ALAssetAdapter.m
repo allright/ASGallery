@@ -56,7 +56,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         cache = [[ASCache alloc] init];
-        cache.maxCachedObjectsCount = 512;
+        cache.maxCachedObjectsCount = 128;
     });
     return cache;
 }
@@ -103,41 +103,29 @@
     return  [NSString stringWithFormat:@"%u:%u",[self hash],imageType];
 }
 
+-(ASCache*)cacheForType:(ASGalleryImageType)imageType
+{
+    switch (imageType) {
+        default:
+        case ASGalleryImagePreview:
+            return [[self class] previewImageCache];
+            
+        case ASGalleryImageFullScreen:
+            return [[self class] fullScreenImageCache];
+    }
+}
+
 -(void)setImageCache:(UIImage*)image forType:(ASGalleryImageType)imageType
 {
     // warning never use here self.url -> too long suspend main thread!!!
     NSString* key = [self generateCacheKey:imageType];
-
-    switch (imageType) {
-        case ASGalleryImagePreview:
-            [[[self class] previewImageCache] setObject:image forKey:key];
-            break;
-            
-        case ASGalleryImageFullScreen:
-            [[[self class] fullScreenImageCache] setObject:image forKey:key];
-            break;
-            
-        default:
-            break;
-    }
+    [[self cacheForType:imageType] setObject:image forKey:key];
 }
 
 -(UIImage*)cachedImageForType:(ASGalleryImageType)imageType
 {
     NSString* key = [self generateCacheKey:imageType];
-    
-    switch (imageType) {
-
-        case ASGalleryImagePreview:
-            return [[[self class] previewImageCache] objectForKey:key];
-            
-        case ASGalleryImageFullScreen:
-            return  [[[self class] fullScreenImageCache] objectForKey:key];
-            
-        default:
-            break;
-    }
-    return nil;
+    return [[self cacheForType:imageType] objectForKey:key];
 }
 
 -(NSOperation*)loadImage:(id<ASGalleryImageView>)galleryImageView withImageType:(ASGalleryImageType)imageType
