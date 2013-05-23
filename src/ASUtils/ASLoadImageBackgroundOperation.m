@@ -25,7 +25,7 @@
 // THE SOFTWARE.
 
 #import "ASLoadImageBackgroundOperation.h"
-#import "NSOperation+ext.h"
+#import "NSOperation+AS.h"
 
 @interface ASLoadImageBackgroundOperation (){
     UIImage* image;

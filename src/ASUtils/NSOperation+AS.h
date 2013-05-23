@@ -42,7 +42,7 @@ typedef void (^NSOperationCompletionBlock)(NSOperation* operation);
 @end
 
 
-@interface NSOperation (ext)
+@interface NSOperation (AS)
 
 -(void)addCompletion:(NSOperationCompletion*)block;
 -(void)callCompletionBlock:(NSOperationCompletion*)cb;
