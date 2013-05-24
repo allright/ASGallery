@@ -242,6 +242,9 @@
 
 -(UIImage*)image
 {
+    assert(_imageView);
+    assert(_imageView.image);
+    
     return _imageView.image;
 }
 
