@@ -222,7 +222,7 @@
     CGFloat pageWidth = pagingScrollView.frame.size.width;
     CGFloat newOffset = self.selectedIndex * pageWidth;
     pagingScrollView.contentOffset = CGPointMake(newOffset, 0);
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
     
     [self resetTimeout];
     
@@ -256,7 +256,7 @@
     return foundPage;
 }
 
--(void)preloadPageWithIndex:(NSInteger)index imageType:(ASGalleryImageType)imageType
+-(void)preloadPageWithIndex:(NSInteger)index imageType:(ASGalleryImageType)imageType reload:(BOOL)reload
 {
     assert(index >=0);
     ASGalleryPage *page = [self visiblePageForIndex:index];
@@ -270,27 +270,29 @@
         
         page.tag = index;
         page.frame = [self frameForPageAtIndex:index];
-        [page prepareForReuse];
-        page.asset = [self.dataSource assetAtIndex:index];
-        page.imageType = imageType;
-        
+
         [pagingScrollView addSubview:page];
         [_visiblePages addObject:page];
-        
-        
-        //NSLog(@"PAGE: %u ADDED",page.index);
-    }else
-        page.imageType = imageType;
+
+        reload = YES; // initally load page
+    }
+    
+    if (reload) {
+        [page prepareForReuse];
+        page.asset = [self.dataSource assetAtIndex:index];
+    }
+
+    page.imageType = imageType;
 }
 
 -(void)reloadData
 {
     pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:YES];
 }
 
 // maxImageType - needed to prevent loading FullScreen images while scrolling, because this is cause jittering
-- (void)tilePagesWithMaxImageType:(ASGalleryImageType)maxImageType
+- (void)tilePagesWithMaxImageType:(ASGalleryImageType)maxImageType reload:(BOOL)reload
 {
     // Calculate which pages are visible
     if (processingRotationNow)
@@ -341,24 +343,24 @@
     //ASGalleryImageType maxImageType = ASGalleryImagePreview;//ASGalleryImageFullScreen;
     
     for (int index = firstVisiblePageIndex; index <= lastVisiblePageIndex; index++)
-        [self preloadPageWithIndex:index imageType:maxImageType];
+        [self preloadPageWithIndex:index imageType:maxImageType reload:reload];
 
     for (int step = 1; step <= self.previewImagesToPreload; step++) {
         
         ASGalleryImageType imageType = step > self.fullScreenImagesToPreload ? ASGalleryImagePreview: maxImageType;
         int loIndex = firstVisiblePageIndex - step;
         if (loIndex >= 0)
-            [self preloadPageWithIndex:loIndex imageType:imageType];
+            [self preloadPageWithIndex:loIndex imageType:imageType reload:reload];
         
         int hiIndex = lastVisiblePageIndex + step;
         if (hiIndex < numberOfAssets)
-            [self preloadPageWithIndex:hiIndex imageType:imageType];
+            [self preloadPageWithIndex:hiIndex imageType:imageType reload:reload];
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self tilePagesWithMaxImageType:ASGalleryImagePreview];
+    [self tilePagesWithMaxImageType:ASGalleryImagePreview reload:NO];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -408,7 +410,7 @@
     
     processingRotationNow = NO;
     
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
     //  DLog(@"END selectedIndex = %u",self.selectedIndex);
 }
 
@@ -425,7 +427,7 @@
         ASGalleryPage* page = [self visiblePageForIndex:indexForResetZoom];
         [page resetToDefaults];
     }
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
 }
 
 -(void)doubleTap:(UITapGestureRecognizer *)gestureRecognizer
