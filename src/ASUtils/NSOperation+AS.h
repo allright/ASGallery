@@ -28,7 +28,7 @@
 
 typedef void (^NSOperationCompletionBlock)(NSOperation* operation);
 
-
+/**@class NSOperationCompletion perform operation in Background thread, and call completion block on Caller thread. */
 @interface NSOperationCompletion : NSObject
 
 @property(nonatomic,strong)  NSThread* thread;
