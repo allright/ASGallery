@@ -49,10 +49,12 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 -(NSURL*)url;
 @end
 
+
+@class ASGalleryViewController;
 @protocol ASGalleryViewControllerDataSource <NSObject>
 
--(NSUInteger)numberOfAssets;
--(id<ASGalleryAsset>)assetAtIndex:(NSUInteger)index;
+-(NSUInteger)numberOfAssetsInGalleryController:(ASGalleryViewController*)controller;
+-(id<ASGalleryAsset>)galleryController:(ASGalleryViewController*)controller assetAtIndex:(NSUInteger)index;
 
 @end
 
@@ -60,15 +62,15 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 
 @optional
 
--(void)selectedIndexDidChanged;
+-(void)selectedIndexDidChangedInGalleryController:(ASGalleryViewController*)controller;
 
--(void)menuBarsWillAppear;
--(void)willAnimateMenuBarsAppearWithDuration:(CGFloat)duration;
--(void)menuBarsDidAppear;
+-(void)menuBarsWillAppearInGalleryController:(ASGalleryViewController*)controller;
+-(void)galleryController:(ASGalleryViewController*)controller willAnimateMenuBarsAppearWithDuration:(CGFloat)duration;
+-(void)menuBarsDidAppearInGalleryController:(ASGalleryViewController*)controller;
 
--(void)menuBarsWillDisappear;
--(void)willAnimateMenuBarsDisappearWithDuration:(CGFloat)duration;
--(void)menuBarsDidDisappear;
+-(void)menuBarsWillDisappearInGalleryController:(ASGalleryViewController*)controller;
+-(void)galleryController:(ASGalleryViewController*)controller willAnimateMenuBarsDisappearWithDuration:(CGFloat)duration;
+-(void)menuBarsDidDisappearInGalleryController:(ASGalleryViewController*)controller;
 
 @end
 
