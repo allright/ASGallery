@@ -52,7 +52,7 @@
     [self updateTitle];
 }
 
--(void)selectedIndexDidChanged
+-(void)selectedIndexDidChangedInGalleryController:(ASGalleryViewController*)controller;
 {
     [self updateTitle];
 }
