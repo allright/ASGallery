@@ -26,6 +26,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ASGalleryViewController.h"
+#import "AssetsLibrary/AssetsLibrary.h"
 
 @interface ALAssetAdapter : NSObject<ASGalleryAsset>
 

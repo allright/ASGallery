@@ -7,6 +7,7 @@
 //
 
 #import "ASAssetsLibrary.h"
+#import "AssetsLibrary/AssetsLibrary.h"
 
 @interface ASAssetsLibrary (){
     ALAssetsLibrary* library;
