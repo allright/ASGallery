@@ -124,15 +124,15 @@
     return _delegate;
 }
 
--(NSUInteger)numberOfAssets
+-(NSUInteger)numberOfAssetsInGalleryController:(ASGalleryViewController *)controller
 {
-    assert(0);
+    assert(!"must be overriden");
     return 0;
 }
 
--(id<ASGalleryAsset>)assetAtIndex:(NSUInteger)index
+-(id<ASGalleryAsset>)galleryController:(ASGalleryViewController *)controller assetAtIndex:(NSUInteger)index
 {
-    assert(0);
+    assert(!"must be overriden");
     return nil;
 }
 
@@ -163,7 +163,7 @@
 - (CGSize)contentSizeForPagingScrollView {
     // We have to use the paging scroll view's bounds to calculate the contentSize, for the same reason outlined above.
     CGRect bounds = pagingScrollView.bounds;
-    return CGSizeMake(bounds.size.width * [self.dataSource numberOfAssets], bounds.size.height);
+    return CGSizeMake(bounds.size.width * [self.dataSource numberOfAssetsInGalleryController:self], bounds.size.height);
 }
 
 - (void)loadView
@@ -222,7 +222,7 @@
     CGFloat pageWidth = pagingScrollView.frame.size.width;
     CGFloat newOffset = self.selectedIndex * pageWidth;
     pagingScrollView.contentOffset = CGPointMake(newOffset, 0);
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
     
     [self resetTimeout];
     
@@ -256,7 +256,7 @@
     return foundPage;
 }
 
--(void)preloadPageWithIndex:(NSInteger)index imageType:(ASGalleryImageType)imageType
+-(void)preloadPageWithIndex:(NSInteger)index imageType:(ASGalleryImageType)imageType reload:(BOOL)reload
 {
     assert(index >=0);
     ASGalleryPage *page = [self visiblePageForIndex:index];
@@ -270,33 +270,35 @@
         
         page.tag = index;
         page.frame = [self frameForPageAtIndex:index];
-        [page prepareForReuse];
-        page.asset = [self.dataSource assetAtIndex:index];
-        page.imageType = imageType;
-        
+
         [pagingScrollView addSubview:page];
         [_visiblePages addObject:page];
-        
-        
-        //NSLog(@"PAGE: %u ADDED",page.index);
-    }else
-        page.imageType = imageType;
+
+        reload = YES; // initally load page
+    }
+    
+    if (reload) {
+        [page prepareForReuse];
+        page.asset = [self.dataSource galleryController:self assetAtIndex:index];
+    }
+
+    page.imageType = imageType;
 }
 
 -(void)reloadData
 {
     pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:YES];
 }
 
 // maxImageType - needed to prevent loading FullScreen images while scrolling, because this is cause jittering
-- (void)tilePagesWithMaxImageType:(ASGalleryImageType)maxImageType
+- (void)tilePagesWithMaxImageType:(ASGalleryImageType)maxImageType reload:(BOOL)reload
 {
     // Calculate which pages are visible
     if (processingRotationNow)
         return;
     
-    NSUInteger numberOfAssets = [self.dataSource numberOfAssets];
+    NSUInteger numberOfAssets = [self.dataSource numberOfAssetsInGalleryController:self];
 
     CGRect visibleBounds = pagingScrollView.bounds;
     
@@ -312,8 +314,8 @@
         if (self.selectedIndex != firstVisiblePageIndex || callDidChangedFirstly){
             self.selectedIndex = firstVisiblePageIndex;
             callDidChangedFirstly = NO;
-            if ([self.delegate respondsToSelector:@selector(selectedIndexDidChanged)])
-                [self.delegate selectedIndexDidChanged];
+            if ([self.delegate respondsToSelector:@selector(selectedIndexDidChangedInGalleryController:)])
+                [self.delegate selectedIndexDidChangedInGalleryController:self];
         }
     }
     //    DLog(@"%u %u",firstVisiblePageIndex,lastVisiblePageIndex);
@@ -341,24 +343,24 @@
     //ASGalleryImageType maxImageType = ASGalleryImagePreview;//ASGalleryImageFullScreen;
     
     for (int index = firstVisiblePageIndex; index <= lastVisiblePageIndex; index++)
-        [self preloadPageWithIndex:index imageType:maxImageType];
+        [self preloadPageWithIndex:index imageType:maxImageType reload:reload];
 
     for (int step = 1; step <= self.previewImagesToPreload; step++) {
         
         ASGalleryImageType imageType = step > self.fullScreenImagesToPreload ? ASGalleryImagePreview: maxImageType;
         int loIndex = firstVisiblePageIndex - step;
         if (loIndex >= 0)
-            [self preloadPageWithIndex:loIndex imageType:imageType];
+            [self preloadPageWithIndex:loIndex imageType:imageType reload:reload];
         
         int hiIndex = lastVisiblePageIndex + step;
         if (hiIndex < numberOfAssets)
-            [self preloadPageWithIndex:hiIndex imageType:imageType];
+            [self preloadPageWithIndex:hiIndex imageType:imageType reload:reload];
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self tilePagesWithMaxImageType:ASGalleryImagePreview];
+    [self tilePagesWithMaxImageType:ASGalleryImagePreview reload:NO];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -408,7 +410,7 @@
     
     processingRotationNow = NO;
     
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
     //  DLog(@"END selectedIndex = %u",self.selectedIndex);
 }
 
@@ -425,7 +427,7 @@
         ASGalleryPage* page = [self visiblePageForIndex:indexForResetZoom];
         [page resetToDefaults];
     }
-    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen];
+    [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
 }
 
 -(void)doubleTap:(UITapGestureRecognizer *)gestureRecognizer
@@ -470,18 +472,21 @@
         
         __weak ASGalleryViewController* SELF = self;
         
-        if ([SELF.delegate respondsToSelector:@selector(menuBarsWillDisappear)])
-            [SELF.delegate menuBarsWillDisappear];
+        if ([SELF.delegate respondsToSelector:@selector(menuBarsWillDisappearInGalleryController:)])
+            [SELF.delegate menuBarsWillDisappearInGalleryController:self];
         
         [UIView animateWithDuration:SHOW_HIDE_ANIMATION_TIME animations:^{
+            
             SELF.navigationController.navigationBar.alpha = 0.0;
-            if ([SELF.delegate respondsToSelector:@selector(willAnimateMenuBarsDisappearWithDuration:)])
-                [SELF.delegate willAnimateMenuBarsDisappearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            if ([SELF.delegate respondsToSelector:@selector(galleryController:willAnimateMenuBarsDisappearWithDuration:)])
+                [SELF.delegate galleryController:self willAnimateMenuBarsDisappearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            
         }completion:^(BOOL finished) {
+            
             [self.navigationController setNavigationBarHidden:YES animated:NO];
             
-            if ([SELF.delegate respondsToSelector:@selector(menuBarsDidDisappear)])
-                [SELF.delegate menuBarsDidDisappear];
+            if ([SELF.delegate respondsToSelector:@selector(menuBarsDidDisappearInGalleryController:)])
+                [SELF.delegate menuBarsDidDisappearInGalleryController:self];
         }];
         
     }
@@ -496,16 +501,16 @@
         
         __weak ASGalleryViewController* SELF = self;
         
-        if ([SELF.delegate respondsToSelector:@selector(menuBarsWillAppear)])
-            [SELF.delegate menuBarsWillAppear];
+        if ([SELF.delegate respondsToSelector:@selector(menuBarsWillAppearInGalleryController:)])
+            [SELF.delegate menuBarsWillAppearInGalleryController:self];
 
         [UIView animateWithDuration:SHOW_HIDE_ANIMATION_TIME animations:^{
             SELF.navigationController.navigationBar.alpha = 1.0;
-            if ([SELF.delegate respondsToSelector:@selector(willAnimateMenuBarsAppearWithDuration:)])
-                [SELF.delegate willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            if ([SELF.delegate respondsToSelector:@selector(galleryController:willAnimateMenuBarsAppearWithDuration:)])
+                [SELF.delegate galleryController:self willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
         }completion:^(BOOL finished) {
-            if ([SELF.delegate respondsToSelector:@selector(menuBarsDidAppear)])
-                [SELF.delegate menuBarsDidAppear];
+            if ([SELF.delegate respondsToSelector:@selector(menuBarsDidAppearInGalleryController:)])
+                [SELF.delegate menuBarsDidAppearInGalleryController:self];
         }];
         
   //      [self showPageTitles:YES animated:YES];

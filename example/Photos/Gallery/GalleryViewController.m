@@ -30,19 +30,19 @@
     [self setWantsFullScreenLayout:YES];
 }
 
--(NSUInteger)numberOfAssets
+-(NSUInteger)numberOfAssetsInGalleryController:(ASGalleryViewController *)controller
 {
     return [self.assets count];
 }
 
--(id<ASGalleryAsset>)assetAtIndex:(NSUInteger)index
+-(id<ASGalleryAsset>)galleryController:(ASGalleryViewController *)controller assetAtIndex:(NSUInteger)index
 {
     return self.assets[index];
 }
 
 -(void)updateTitle
 {
-    self.title = [NSString stringWithFormat:NSLocalizedString(@"%u of %u", nil),self.selectedIndex + 1,[self numberOfAssets]];
+    self.title = [NSString stringWithFormat:NSLocalizedString(@"%u of %u", nil),self.selectedIndex + 1,[self numberOfAssetsInGalleryController:self]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -52,7 +52,7 @@
     [self updateTitle];
 }
 
--(void)selectedIndexDidChanged
+-(void)selectedIndexDidChangedInGalleryController:(ASGalleryViewController*)controller;
 {
     [self updateTitle];
 }
