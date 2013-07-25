@@ -25,9 +25,7 @@
 // THE SOFTWARE.
 
 #import "ALAssetAdapter.h"
-#import "ASLoadImageBackgroundOperation.h"
-#import "ASLoadImageQueue.h"
-#import "ASCache.h"
+
 
 @interface ALAssetAdapter (){
     NSString* type;
@@ -38,28 +36,6 @@
 
 
 @implementation ALAssetAdapter
-
-+(ASCache*)fullScreenImageCache
-{
-    static ASCache* cache = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cache = [[ASCache alloc] init];
-        cache.maxCachedObjectsCount = 5;
-    });
-    return cache;
-}
-
-+(ASCache*)previewImageCache
-{
-    static ASCache* cache = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cache = [[ASCache alloc] init];
-        cache.maxCachedObjectsCount = 128;
-    });
-    return cache;
-}
 
 -(BOOL)isVideo
 {
@@ -94,64 +70,6 @@
         default:
             return nil;
     }
-}
-
--(NSString*)generateCacheKey:(ASGalleryImageType)imageType
-{
-    // warning never use here self.url -> too long suspend main thread!!!
-    return  [NSString stringWithFormat:@"%u:%u",[self hash],imageType];
-}
-
--(ASCache*)cacheForType:(ASGalleryImageType)imageType
-{
-    switch (imageType) {
-        default:
-        case ASGalleryImagePreview:
-            return [[self class] previewImageCache];
-            
-        case ASGalleryImageFullScreen:
-            return [[self class] fullScreenImageCache];
-    }
-}
-
--(void)setImageCache:(UIImage*)image forType:(ASGalleryImageType)imageType
-{
-    NSString* key = [self generateCacheKey:imageType];
-    [[self cacheForType:imageType] setObject:image forKey:key];
-}
-
--(UIImage*)cachedImageForType:(ASGalleryImageType)imageType
-{
-    NSString* key = [self generateCacheKey:imageType];
-    return [[self cacheForType:imageType] objectForKey:key];
-}
-
--(NSOperation*)loadImage:(id<ASGalleryImageView>)galleryImageView withImageType:(ASGalleryImageType)imageType
-{
-    UIImage* image = [self cachedImageForType:imageType];
-    if (image){
-        [galleryImageView setImage:image];
-        return nil;
-    }
-    
-    ASLoadImageBackgroundOperation* loadImageOperation = [[ASLoadImageBackgroundOperation alloc] init];
-    loadImageOperation.queuePriority = NSOperationQueuePriorityVeryLow;
-    __weak ALAssetAdapter* SELF = self;
-    loadImageOperation.imageFetchBlock = ^UIImage*(void){
-        
-        UIImage* image = [SELF imageForType:imageType];
-        if (image) {
-            [SELF setImageCache:image forType:imageType];
-        }
-        return image;
-    };
-    
-    loadImageOperation.imageSetBlock = ^(UIImage* image){
-        [galleryImageView setImage:image];
-    };
-    
-    [[ASLoadImageQueue sharedInstance] addOperation:loadImageOperation];
-    return loadImageOperation;
 }
 
 @end

@@ -25,10 +25,10 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ASGalleryViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "ASGalleryAssetBase.h"
 
-@interface ALAssetAdapter : NSObject<ASGalleryAsset>
+@interface ALAssetAdapter : ASGalleryAssetBase
 
 @property(nonatomic,strong) ALAsset* asset;
 

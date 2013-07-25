@@ -33,6 +33,7 @@
 		10A3D603174B867300013BE3 /* ASCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3D602174B867300013BE3 /* ASCache.m */; };
 		10D0AFFC174B742800AEC2A1 /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */; };
 		10D20E36174E23C50090C381 /* NSOperation+AS.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D20E35174E23C50090C381 /* NSOperation+AS.m */; };
+		10FC440517A14A9E00480171 /* ASGalleryAssetBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 10FC440417A14A9E00480171 /* ASGalleryAssetBase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,8 @@
 		10D0AFFB174B742800AEC2A1 /* GalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryViewController.m; path = Gallery/GalleryViewController.m; sourceTree = "<group>"; };
 		10D20E34174E23C50090C381 /* NSOperation+AS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperation+AS.h"; sourceTree = "<group>"; };
 		10D20E35174E23C50090C381 /* NSOperation+AS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperation+AS.m"; sourceTree = "<group>"; };
+		10FC440317A14A9E00480171 /* ASGalleryAssetBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASGalleryAssetBase.h; sourceTree = "<group>"; };
+		10FC440417A14A9E00480171 /* ASGalleryAssetBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASGalleryAssetBase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +166,8 @@
 			children = (
 				10A3D5FF174B855C00013BE3 /* ALAssetAdapter.h */,
 				10A3D5FE174B855C00013BE3 /* ALAssetAdapter.m */,
+				10FC440317A14A9E00480171 /* ASGalleryAssetBase.h */,
+				10FC440417A14A9E00480171 /* ASGalleryAssetBase.m */,
 				102CAC79174B68B6007B75BE /* ASGalleryPage.h */,
 				102CAC7A174B68B6007B75BE /* ASGalleryPage.m */,
 				102CAC7B174B68B6007B75BE /* ASGalleryViewController.h */,
@@ -293,6 +298,7 @@
 				10A3D600174B855C00013BE3 /* ALAssetAdapter.m in Sources */,
 				10A3D603174B867300013BE3 /* ASCache.m in Sources */,
 				10D20E36174E23C50090C381 /* NSOperation+AS.m in Sources */,
+				10FC440517A14A9E00480171 /* ASGalleryAssetBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
