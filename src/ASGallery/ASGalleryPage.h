@@ -38,7 +38,7 @@
 @protocol ASGalleryAsset;
 @interface ASGalleryPage : UIView
 
-@property(nonatomic,weak) id<ASGalleryPageDelegate> delegate;
+@property(nonatomic,unsafe_unretained) id<ASGalleryPageDelegate> delegate;
 @property(nonatomic,strong) id<ASGalleryAsset> asset;
 @property(nonatomic,assign) ASGalleryImageType imageType;
 

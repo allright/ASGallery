@@ -36,7 +36,7 @@
 
 @interface ASImageScrollView : UIScrollView
 
-@property(nonatomic,weak) id<ASImageScrollViewDelegate> zoomDelegate;
+@property(nonatomic,unsafe_unretained) id<ASImageScrollViewDelegate> zoomDelegate;
 @property (nonatomic,strong) UIImage* image;
 @property (nonatomic,assign) BOOL isVideo;
 @property (nonatomic,strong,readonly) UIImageView   *imageView;

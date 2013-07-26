@@ -83,7 +83,6 @@
     return NO;
 }
 
-
 -(NSOperation*)loadImage:(id<ASGalleryImageView>)galleryImageView withImageType:(ASGalleryImageType)imageType
 {
     UIImage* image = [self cachedImageForType:imageType];
@@ -94,7 +93,7 @@
     
     ASLoadImageBackgroundOperation* loadImageOperation = [[ASLoadImageBackgroundOperation alloc] init];
     loadImageOperation.queuePriority = NSOperationQueuePriorityVeryLow;
-    __weak ASGalleryAssetBase* SELF = self;
+    __unsafe_unretained ASGalleryAssetBase* SELF = self;
     loadImageOperation.imageFetchBlock = ^UIImage*(void){
         
         UIImage* image = [SELF imageForType:imageType];

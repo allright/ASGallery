@@ -77,8 +77,8 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 
 @interface ASGalleryViewController : UIViewController<ASGalleryViewControllerDataSource,ASGalleryViewControllerDelegate>
 
-@property(nonatomic,weak) id<ASGalleryViewControllerDataSource> dataSource;
-@property(nonatomic,weak) id<ASGalleryViewControllerDelegate> delegate;
+@property(nonatomic,unsafe_unretained) id<ASGalleryViewControllerDataSource> dataSource;
+@property(nonatomic,unsafe_unretained) id<ASGalleryViewControllerDelegate> delegate;
 
 @property (nonatomic,strong)     NSMutableSet    *visiblePages;
 

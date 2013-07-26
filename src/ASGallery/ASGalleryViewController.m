@@ -29,6 +29,7 @@
 
 #define PADDING  20
 #define SHOW_HIDE_ANIMATION_TIME 0.3
+#define STATUS_BAR_AND_NAVBAR_HEIGHT    (20+44)
 
 @interface ASGalleryViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,ASGalleryPageDelegate>{
     UIScrollView    *pagingScrollView;
@@ -136,15 +137,23 @@
     return nil;
 }
 
+-(BOOL)isNavigationBarNotTranslucent
+{
+    return !self.navigationController.navigationBar.hidden && !self.navigationController.navigationBar.translucent;
+}
 
 - (CGRect)frameForPagingScrollView {
     CGRect frame = [[UIScreen mainScreen] bounds];
     
     if (!UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
         frame.size = CGSizeMake(frame.size.height,frame.size.width);
-    
     frame.origin.x -= PADDING;
     frame.size.width += (2 * PADDING);
+    
+    if ([self isNavigationBarNotTranslucent]){
+        frame.origin.y -= STATUS_BAR_AND_NAVBAR_HEIGHT;
+        frame.size.height += STATUS_BAR_AND_NAVBAR_HEIGHT;
+    }
     return frame;
 }
 
@@ -163,7 +172,8 @@
 - (CGSize)contentSizeForPagingScrollView {
     // We have to use the paging scroll view's bounds to calculate the contentSize, for the same reason outlined above.
     CGRect bounds = pagingScrollView.bounds;
-    return CGSizeMake(bounds.size.width * [self.dataSource numberOfAssetsInGalleryController:self], bounds.size.height);
+    return CGSizeMake(bounds.size.width * [self.dataSource numberOfAssetsInGalleryController:self],
+                      bounds.size.height - ([self isNavigationBarNotTranslucent] ? STATUS_BAR_AND_NAVBAR_HEIGHT : 0));
 }
 
 - (void)loadView
@@ -468,9 +478,10 @@
     hideBarsTimer = nil;
     if (!hideControls) {
         hideControls = YES;
+        
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         
-        __weak ASGalleryViewController* SELF = self;
+        __unsafe_unretained ASGalleryViewController* SELF = self;
         
         if ([SELF.delegate respondsToSelector:@selector(menuBarsWillDisappearInGalleryController:)])
             [SELF.delegate menuBarsWillDisappearInGalleryController:self];
@@ -484,7 +495,8 @@
         }completion:^(BOOL finished) {
             
             [self.navigationController setNavigationBarHidden:YES animated:NO];
-            
+            pagingScrollView.frame = [self frameForPagingScrollView];
+
             if ([SELF.delegate respondsToSelector:@selector(menuBarsDidDisappearInGalleryController:)])
                 [SELF.delegate menuBarsDidDisappearInGalleryController:self];
         }];
@@ -496,10 +508,13 @@
 {
     if (hideControls) {
         hideControls = NO;
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-        [self.navigationController setNavigationBarHidden:NO  animated:NO];
         
-        __weak ASGalleryViewController* SELF = self;
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        
+        [self.navigationController setNavigationBarHidden:NO  animated:NO];
+        pagingScrollView.frame = [self frameForPagingScrollView];
+        
+        __unsafe_unretained ASGalleryViewController* SELF = self;
         
         if ([SELF.delegate respondsToSelector:@selector(menuBarsWillAppearInGalleryController:)])
             [SELF.delegate menuBarsWillAppearInGalleryController:self];
