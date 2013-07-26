@@ -489,12 +489,17 @@
         
         if ([SELF.delegate respondsToSelector:@selector(menuBarsWillDisappearInGalleryController:)])
             [SELF.delegate menuBarsWillDisappearInGalleryController:self];
+        [self.visiblePages makeObjectsPerformSelector:@selector(menuBarsWillDisappear)];
         
         [UIView animateWithDuration:SHOW_HIDE_ANIMATION_TIME animations:^{
             
             SELF.navigationController.navigationBar.alpha = 0.0;
             if ([SELF.delegate respondsToSelector:@selector(galleryController:willAnimateMenuBarsDisappearWithDuration:)])
                 [SELF.delegate galleryController:self willAnimateMenuBarsDisappearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            
+            [self.visiblePages enumerateObjectsUsingBlock:^(ASGalleryPage* page, BOOL *stop) {
+                [page willAnimateMenuBarsDisappearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            }];
             
         }completion:^(BOOL finished) {
             
@@ -503,10 +508,13 @@
 
             if ([SELF.delegate respondsToSelector:@selector(menuBarsDidDisappearInGalleryController:)])
                 [SELF.delegate menuBarsDidDisappearInGalleryController:self];
+            [self.visiblePages makeObjectsPerformSelector:@selector(menuBarsDidDisappear)];
         }];
         
     }
 }
+
+
 
 -(void)showBars
 {
@@ -522,14 +530,22 @@
         
         if ([SELF.delegate respondsToSelector:@selector(menuBarsWillAppearInGalleryController:)])
             [SELF.delegate menuBarsWillAppearInGalleryController:self];
+        [self.visiblePages makeObjectsPerformSelector:@selector(menuBarsWillAppear)];
 
         [UIView animateWithDuration:SHOW_HIDE_ANIMATION_TIME animations:^{
+            
             SELF.navigationController.navigationBar.alpha = 1.0;
             if ([SELF.delegate respondsToSelector:@selector(galleryController:willAnimateMenuBarsAppearWithDuration:)])
                 [SELF.delegate galleryController:self willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            [self.visiblePages enumerateObjectsUsingBlock:^(ASGalleryPage* page, BOOL *stop) {
+                [page willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            }];
+            
+            
         }completion:^(BOOL finished) {
             if ([SELF.delegate respondsToSelector:@selector(menuBarsDidAppearInGalleryController:)])
                 [SELF.delegate menuBarsDidAppearInGalleryController:self];
+            [self.visiblePages makeObjectsPerformSelector:@selector(menuBarsDidAppear)];
         }];
         
   //      [self showPageTitles:YES animated:YES];

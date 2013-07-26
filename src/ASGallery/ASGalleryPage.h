@@ -52,4 +52,12 @@
 -(void)doubleTap:(UITapGestureRecognizer *)gestureRecognizer;
 
 
+-(void)menuBarsWillAppear;
+-(void)willAnimateMenuBarsAppearWithDuration:(CGFloat)duration;
+-(void)menuBarsDidAppear;
+
+-(void)menuBarsWillDisappear;
+-(void)willAnimateMenuBarsDisappearWithDuration:(CGFloat)duration;
+-(void)menuBarsDidDisappear;
+
 @end
