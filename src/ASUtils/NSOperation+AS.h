@@ -34,7 +34,7 @@ typedef void (^NSOperationCompletionBlock)(NSOperation* operation);
 @property(nonatomic,strong)  NSThread* thread;
 @property(nonatomic,copy)   NSOperationCompletionBlock block;
 @property(nonatomic,assign) SEL selector;
-@property(nonatomic,weak)   id target;
+@property(nonatomic,unsafe_unretained)   id target;
 
 +(NSOperationCompletion*)completionWithBlock:(NSOperationCompletionBlock)block onThread:(NSThread*)thread;
 +(NSOperationCompletion*)completionWithTarget:(id)target selector:(SEL)selector onThread:(NSThread*)thread;

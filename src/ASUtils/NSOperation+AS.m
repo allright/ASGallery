@@ -74,7 +74,7 @@ static char completionBlocksArrayKey;
     if (!self.completionBlock)
     {
         // set real completion block to self
-        __weak NSOperation* SELF = self;
+        __unsafe_unretained NSOperation* SELF = self;
         
         self.completionBlock = ^{
             
