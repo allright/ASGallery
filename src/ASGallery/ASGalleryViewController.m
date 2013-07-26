@@ -29,7 +29,9 @@
 
 #define PADDING  20
 #define SHOW_HIDE_ANIMATION_TIME 0.3
-#define STATUS_BAR_AND_NAVBAR_HEIGHT    (20+44)
+//#define STATUS_BAR_AND_NAVBAR_HEIGHT    (20+44)
+
+
 
 @interface ASGalleryViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,ASGalleryPageDelegate>{
     UIScrollView    *pagingScrollView;
@@ -137,10 +139,14 @@
     return nil;
 }
 
--(BOOL)isNavigationBarNotTranslucent
+-(CGFloat)statusBarAndNavigationBarHeight
 {
-    return !self.navigationController.navigationBar.hidden && !self.navigationController.navigationBar.translucent;
+    if (!self.navigationController.navigationBar.hidden && !self.navigationController.navigationBar.translucent){
+        return self.navigationController.navigationBar.frame.size.height + 20;
+    }else
+        return 0;
 }
+
 
 - (CGRect)frameForPagingScrollView {
     CGRect frame = [[UIScreen mainScreen] bounds];
@@ -150,10 +156,8 @@
     frame.origin.x -= PADDING;
     frame.size.width += (2 * PADDING);
     
-    if ([self isNavigationBarNotTranslucent]){
-        frame.origin.y -= STATUS_BAR_AND_NAVBAR_HEIGHT;
-        frame.size.height += STATUS_BAR_AND_NAVBAR_HEIGHT;
-    }
+    frame.origin.y -= [self statusBarAndNavigationBarHeight];
+    frame.size.height += [self statusBarAndNavigationBarHeight];
     return frame;
 }
 
@@ -173,7 +177,7 @@
     // We have to use the paging scroll view's bounds to calculate the contentSize, for the same reason outlined above.
     CGRect bounds = pagingScrollView.bounds;
     return CGSizeMake(bounds.size.width * [self.dataSource numberOfAssetsInGalleryController:self],
-                      bounds.size.height - ([self isNavigationBarNotTranslucent] ? STATUS_BAR_AND_NAVBAR_HEIGHT : 0));
+                      bounds.size.height - [self statusBarAndNavigationBarHeight]);
 }
 
 - (void)loadView
