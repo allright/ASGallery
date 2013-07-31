@@ -74,7 +74,7 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 
 @end
 
-
+@class ASGalleryPage;
 @interface ASGalleryViewController : UIViewController<ASGalleryViewControllerDataSource,ASGalleryViewControllerDelegate>
 
 @property(nonatomic,unsafe_unretained) id<ASGalleryViewControllerDataSource> dataSource;
@@ -90,8 +90,12 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 
 @property(nonatomic,strong) Class galleryPageClass;  // by default ASGalleryPage (you can have ASGalleryPage as parent class!)
 
--(void)reloadData;
-
 @property(nonatomic,strong) ASImageScrollView* currentImageView;
 
+-(void)reloadData;
+
+- (ASGalleryPage*)visiblePageForIndex:(NSUInteger)index;
+
+
+        
 @end
