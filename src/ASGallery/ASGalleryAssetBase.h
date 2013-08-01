@@ -13,5 +13,6 @@
 @interface ASGalleryAssetBase : NSObject<ASGalleryAsset>
 
 -(UIImage*)imageForType:(ASGalleryImageType)imageType;
+-(CGFloat)duration;
 
 @end

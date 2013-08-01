@@ -30,12 +30,21 @@
 @interface ALAssetAdapter (){
     NSString* type;
     NSURL* _url;
+    NSNumber* _duration;
 }
 
 @end
 
 
 @implementation ALAssetAdapter
+
+-(CGFloat)duration
+{
+    if (_duration == nil){
+        _duration = [self.asset valueForProperty:ALAssetPropertyDuration];
+    }
+    return [_duration floatValue];
+}
 
 -(BOOL)isVideo
 {
@@ -54,6 +63,9 @@
 -(UIImage*)imageForType:(ASGalleryImageType)imageType
 {
     switch (imageType) {
+        case ASGalleryImageThumbnail:
+            return [UIImage imageWithCGImage:[self.asset thumbnail]];
+            
         case ASGalleryImagePreview:
             return [UIImage imageWithCGImage:[self.asset aspectRatioThumbnail]];
             

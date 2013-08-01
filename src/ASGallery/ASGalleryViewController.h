@@ -32,6 +32,7 @@ typedef enum{
   ASGalleryImagePreview,
   ASGalleryImageFullScreen,
   ASGalleryImageFullResolution,
+  ASGalleryImageThumbnail
 }ASGalleryImageType;
 
 typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
@@ -91,6 +92,9 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 @property(nonatomic,strong) Class galleryPageClass;  // by default ASGalleryPage (you can have ASGalleryPage as parent class!)
 
 @property(nonatomic,strong) ASImageScrollView* currentImageView;
+
+@property (nonatomic,assign) BOOL doNotHideBarsOnScrollBegin;
+
 
 -(void)reloadData;
 
