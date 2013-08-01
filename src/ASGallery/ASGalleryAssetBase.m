@@ -65,6 +65,12 @@
     return [[self cacheForType:imageType] objectForKey:key];
 }
 
+-(CGFloat)duration
+{
+    assert(!"override me");
+    return 0;
+}
+
 -(UIImage*)imageForType:(ASGalleryImageType)imageType
 {
     assert(!"override me");
