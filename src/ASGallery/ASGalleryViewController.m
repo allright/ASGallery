@@ -270,6 +270,11 @@
     return foundPage;
 }
 
+-(ASGalleryPage*)createGalleryPage
+{
+    return [[self.galleryPageClass alloc] init];
+}
+
 -(void)preloadPageWithIndex:(NSInteger)index imageType:(ASGalleryImageType)imageType reload:(BOOL)reload
 {
     assert(index >=0);
@@ -278,7 +283,7 @@
 
         page = [self dequeueRecycledPage];
         if (page == nil) {
-            page = [[self.galleryPageClass alloc] init];
+            page = [self createGalleryPage];
             page.delegate = self;
         }
         
@@ -542,6 +547,7 @@
             SELF.navigationController.navigationBar.alpha = 1.0;
             if ([SELF.delegate respondsToSelector:@selector(galleryController:willAnimateMenuBarsAppearWithDuration:)])
                 [SELF.delegate galleryController:self willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
+            
             [self.visiblePages enumerateObjectsUsingBlock:^(ASGalleryPage* page, BOOL *stop) {
                 [page willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
             }];

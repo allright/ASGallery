@@ -207,7 +207,9 @@ static UIImage* playButtonImage()
     [moviePlayer.view removeFromSuperview];
     moviePlayer = nil;
     
-    [self.delegate playbackFinished];
+    if ([self.delegate respondsToSelector:@selector(playbackFinished)]){
+        [self.delegate playbackFinished];
+    }
 }
 
 -(void)pause
@@ -219,8 +221,10 @@ static UIImage* playButtonImage()
 -(void)play
 {
     // hideBars if need
-    [self.delegate playButtonPressed];
-    
+    if ([self.delegate respondsToSelector:@selector(playButtonPressed)]){
+        [self.delegate playButtonPressed];
+    }
+
     assert(_asset.isVideo);
     moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:_asset.url];
     

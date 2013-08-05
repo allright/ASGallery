@@ -100,6 +100,7 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 
 - (ASGalleryPage*)visiblePageForIndex:(NSUInteger)index;
 
-
+// can be ovveride, for create and preinit ASGalleryPage subclass. also you can use galleryPageClass only or together with this method
+-(ASGalleryPage*)createGalleryPage;
         
 @end

@@ -29,6 +29,7 @@
 
 @protocol ASGalleryPageDelegate <NSObject>
 
+@optional
 -(void)playButtonPressed;
 -(void)playbackFinished;
 
