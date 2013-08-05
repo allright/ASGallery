@@ -60,6 +60,13 @@
     return _url;
 }
 
+-(BOOL)isImageForTypeAvailable:(ASGalleryImageType)imageType
+{
+    if ([self.asset respondsToSelector:@selector(aspectRatioThumbnail)])
+        return YES;
+    return imageType != ASGalleryImagePreview;
+}
+
 -(UIImage*)imageForType:(ASGalleryImageType)imageType
 {
     switch (imageType) {

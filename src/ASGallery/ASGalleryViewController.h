@@ -44,7 +44,7 @@ typedef void (^ASImageSetBlock)(ASGalleryImageType type, UIImage* image);
 @end
 
 @protocol ASGalleryAsset <NSObject>
-
+-(BOOL)isImageForTypeAvailable:(ASGalleryImageType)imageType;
 -(BOOL)isVideo;
 -(NSOperation*)loadImage:(id<ASGalleryImageView>)galleryImageView withImageType:(ASGalleryImageType)imageType;
 -(NSURL*)url;

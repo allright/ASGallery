@@ -75,7 +75,16 @@ static UIImage* playButtonImage()
     BOOL downgrade = NO;
     if (_imageType > _currentLoadingImageType){
         _currentLoadingImageType++;
+        
+            if (![_asset isImageForTypeAvailable:ASGalleryImagePreview] && _currentLoadingImageType == ASGalleryImagePreview){
+                
+                if (_imageType > _currentLoadingImageType){
+                    _currentLoadingImageType++;
+                }else
+                    return;
+            }
     }else if (_imageType < _currentLoadingImageType){
+        
         _currentLoadingImageType--;
         downgrade = YES;
     }else

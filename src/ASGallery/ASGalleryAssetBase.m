@@ -89,6 +89,11 @@
     return NO;
 }
 
+-(BOOL)isImageForTypeAvailable:(ASGalleryImageType)imageType
+{
+    return YES;
+}
+
 -(NSOperation*)loadImage:(id<ASGalleryImageView>)galleryImageView withImageType:(ASGalleryImageType)imageType
 {
     UIImage* image = [self cachedImageForType:imageType];
