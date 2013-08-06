@@ -28,10 +28,32 @@
 #import "ASGalleryPage.h"
 
 #define PADDING  20
-#define SHOW_HIDE_ANIMATION_TIME 0.3
-//#define STATUS_BAR_AND_NAVBAR_HEIGHT    (20+44)
+#define SHOW_HIDE_ANIMATION_TIME 0.35
 
 
+@interface ShiftContentView : UIView
+
+@property (nonatomic,assign) UIInterfaceOrientation interfaceOrientation;
+@property (nonatomic,assign) UIView* shiftView;
+
+@end
+
+@implementation ShiftContentView
+
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGRect rect = [UIScreen mainScreen].bounds;
+    CGFloat height = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? rect.size.height : rect.size.width;
+    
+    CGRect frame = self.shiftView.frame;
+    frame.origin.y = self.frame.size.height - height;
+    frame.size.height = height;
+    self.shiftView.frame = frame;
+}
+
+@end
 
 @interface ASGalleryViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,ASGalleryPageDelegate>{
     UIScrollView    *pagingScrollView;
@@ -51,7 +73,6 @@
     
     BOOL    callDidChangedFirstly;
 }
-
 @end
 
 @implementation ASGalleryViewController
@@ -112,7 +133,6 @@
     return YES; // handle the touch
 }
 
-
 -(id<ASGalleryViewControllerDataSource>)dataSource
 {
     if (_dataSource == nil)
@@ -139,15 +159,6 @@
     return nil;
 }
 
--(CGFloat)statusBarAndNavigationBarHeight
-{
-    if (!self.navigationController.navigationBar.hidden && !self.navigationController.navigationBar.translucent){
-        return self.navigationController.navigationBar.frame.size.height + 20;
-    }else
-        return 0;
-}
-
-
 - (CGRect)frameForPagingScrollView {
     CGRect frame = [[UIScreen mainScreen] bounds];
     
@@ -155,9 +166,6 @@
         frame.size = CGSizeMake(frame.size.height,frame.size.width);
     frame.origin.x -= PADDING;
     frame.size.width += (2 * PADDING);
-    
-    frame.origin.y -= [self statusBarAndNavigationBarHeight];
-    frame.size.height += [self statusBarAndNavigationBarHeight];
     return frame;
 }
 
@@ -166,6 +174,7 @@
     // landscape orientation, the frame will still be in portrait because the pagingScrollView is the root view controller's
     // view, so its frame is in window coordinate space, which is never rotated. Its bounds, however, will be in landscape
     // because it has a rotation transform applied.
+    [self.view layoutSubviews];
     CGRect bounds = pagingScrollView.bounds;
     CGRect pageFrame = bounds;
     pageFrame.size.width -= (2 * PADDING);
@@ -177,7 +186,7 @@
     // We have to use the paging scroll view's bounds to calculate the contentSize, for the same reason outlined above.
     CGRect bounds = pagingScrollView.bounds;
     return CGSizeMake(bounds.size.width * [self.dataSource numberOfAssetsInGalleryController:self],
-                      bounds.size.height - [self statusBarAndNavigationBarHeight]);
+                      bounds.size.height);
 }
 
 - (void)loadView
@@ -185,17 +194,12 @@
     // Step 1: make the outer paging scroll view
     CGRect pagingScrollViewFrame = [self frameForPagingScrollView];
     
-    
     pagingScrollView = [[UIScrollView alloc] initWithFrame:pagingScrollViewFrame];
     pagingScrollView.pagingEnabled = YES;
     pagingScrollView.backgroundColor = [UIColor blackColor];
     pagingScrollView.showsVerticalScrollIndicator = NO;
     pagingScrollView.showsHorizontalScrollIndicator = NO;
-    
-    //    NSLog(@"pagingScrollViewFrame = %@ frame = %@ bounds = %@ orientation = %u",NSStringFromCGRect(pagingScrollViewFrame),NSStringFromCGRect(pagingScrollView.frame),NSStringFromCGRect(pagingScrollView.bounds),self.interfaceOrientation);
-    
     pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
-    
     pagingScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     pagingScrollView.delegate = self;
     
@@ -203,7 +207,10 @@
     if (!UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
         frameForParentView.size = CGSizeMake(frameForParentView.size.height,frameForParentView.size.width);
     
-    self.view = [[UIView alloc] initWithFrame:frameForParentView];
+    ShiftContentView* shiftContentView = [[ShiftContentView alloc] initWithFrame:frameForParentView];
+    shiftContentView.shiftView = pagingScrollView;
+    shiftContentView.interfaceOrientation = self.interfaceOrientation;
+    self.view = shiftContentView;
     self.view.backgroundColor = [UIColor blackColor];
     [self.view addSubview:pagingScrollView];
     
@@ -337,7 +344,6 @@
                 [self.delegate selectedIndexDidChangedInGalleryController:self];
         }
     }
-    //    DLog(@"%u %u",firstVisiblePageIndex,lastVisiblePageIndex);
     
     int firstNeededPageIndex = firstVisiblePageIndex - (self.previewImagesToPreload+2); //  with +2 gisteresis to prevent REMOVE/ADD on tilePages noice!
     if (firstNeededPageIndex < 0)
@@ -352,15 +358,10 @@
         if (page.tag < firstNeededPageIndex || page.tag > lastNeededPageIndex) {
             [recycledPages addObject:page];
             [page removeFromSuperview];
-            //   NSLog(@"PAGE: %u REMOVED",page.tag);
         }
     }
     [_visiblePages minusSet:recycledPages];
-    
- //   TLog(@"tilePages: [%u {%u:%u}  %u]",firstNeededPageIndex,firstVisiblePageIndex,lastVisiblePageIndex,lastNeededPageIndex);
-    // add missing pages
-    //ASGalleryImageType maxImageType = ASGalleryImagePreview;//ASGalleryImageFullScreen;
-    
+
     for (int index = firstVisiblePageIndex; index <= lastVisiblePageIndex; index++)
         [self preloadPageWithIndex:index imageType:maxImageType reload:reload];
 
@@ -384,7 +385,9 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    //    DLog(@"toInterfaceOrientation = %u duration = %f",toInterfaceOrientation,duration);
+    ShiftContentView* shiftContentView = (ShiftContentView*)self.view;
+    shiftContentView.interfaceOrientation = toInterfaceOrientation;
+
     processingRotationNow = YES; // oto prevent incorrect scrolling in tilePages!
     
     // here, our pagingScrollView bounds have not yet been updated for the new interface orientation. So this is a good
@@ -401,21 +404,12 @@
     }
 }
 
-//-(void)setSelectedIndex:(NSUInteger)selectedIndex
-//{
-//    ILog(@"selected  = %u",selectedIndex);
-//    _selectedIndex = selectedIndex;
-//}
-
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    //  DLog(@"BEGIN toInterfaceOrientation = %u duration = %f",toInterfaceOrientation,duration);
-    
     // recalculate contentSize based on current orientation
     pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
     
     // adjust frames and configuration of each visible page
-    
     // adjust contentOffset to preserve page location based on values collected prior to location
     CGFloat pageWidth = pagingScrollView.bounds.size.width;
     CGFloat newOffset = (firstVisiblePageIndexBeforeRotation * pageWidth) + (percentScrolledIntoFirstVisiblePage * pageWidth);
@@ -430,10 +424,7 @@
     processingRotationNow = NO;
     
     [self tilePagesWithMaxImageType:ASGalleryImageFullScreen reload:NO];
-    //  DLog(@"END selectedIndex = %u",self.selectedIndex);
 }
-
-
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     indexForResetZoom = self.selectedIndex;
@@ -524,8 +515,6 @@
     }
 }
 
-
-
 -(void)showBars
 {
     if (hideControls) {
@@ -552,14 +541,12 @@
                 [page willAnimateMenuBarsAppearWithDuration:SHOW_HIDE_ANIMATION_TIME];
             }];
             
-            
         }completion:^(BOOL finished) {
+            
             if ([SELF.delegate respondsToSelector:@selector(menuBarsDidAppearInGalleryController:)])
                 [SELF.delegate menuBarsDidAppearInGalleryController:self];
             [self.visiblePages makeObjectsPerformSelector:@selector(menuBarsDidAppear)];
         }];
-        
-  //      [self showPageTitles:YES animated:YES];
     }
 }
 
