@@ -30,7 +30,6 @@
 #define PADDING  20
 #define SHOW_HIDE_ANIMATION_TIME 0.35
 
-
 @interface ShiftContentView : UIView
 
 @property (nonatomic,assign) UIInterfaceOrientation interfaceOrientation;
@@ -72,6 +71,7 @@
     UITapGestureRecognizer* gestureDoubleTap;
     
     BOOL    callDidChangedFirstly;
+    BOOL    viewVisibleNow;
 }
 @end
 
@@ -234,7 +234,6 @@
     _visiblePages = nil;
 }
 
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -247,10 +246,12 @@
     
     [self resetTimeout];
     
+    viewVisibleNow = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    viewVisibleNow = NO;
     [super viewWillDisappear:animated];
     [hideBarsTimer invalidate];
     [self showBars];
@@ -481,6 +482,10 @@
 {
     [hideBarsTimer invalidate];
     hideBarsTimer = nil;
+ 
+    if (!viewVisibleNow)
+        return;
+    
     if (!hideControls) {
         hideControls = YES;
         
@@ -519,7 +524,7 @@
 {
     if (hideControls) {
         hideControls = NO;
-        
+
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
         
         [self.navigationController setNavigationBarHidden:NO  animated:NO];
@@ -569,6 +574,5 @@
         [self hideBars];
     }
 }
-
 
 @end
