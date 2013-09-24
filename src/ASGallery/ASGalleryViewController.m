@@ -112,6 +112,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)])
+    {
+        [self setAutomaticallyAdjustsScrollViewInsets:NO];
+    }
     
     gestureDoubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
     gestureDoubleTap.delegate = self;
