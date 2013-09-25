@@ -115,6 +115,7 @@
     if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)])
     {
         [self setAutomaticallyAdjustsScrollViewInsets:NO];
+        [self setExtendedLayoutIncludesOpaqueBars:YES];
     }
     
     gestureDoubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
